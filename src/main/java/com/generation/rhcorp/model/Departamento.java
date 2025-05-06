@@ -41,8 +41,8 @@ public class Departamento {
 	@Positive(message = "O ramal deve ser maior do que zero!")
 	private Integer ramal;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "departamento", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("departamento")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = { CascadeType.REMOVE })
+	@JsonIgnoreProperties("usuario")
 	private List<Usuario> usuario;
 
 	public Long getId() {
@@ -92,4 +92,5 @@ public class Departamento {
 	public void setUsuario(List<Usuario> usuario) {
 		this.usuario = usuario;
 	}
+
 }
