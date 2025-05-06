@@ -28,7 +28,7 @@ public class Cargo {
 
 	@NotBlank(message = "O atributo nome do cargo é obrigatório!")
 	@Size(min = 3, max = 100, message = "O atributo nome deve conter no mínimo 3 e no máximo 100 caracteres")
-	private String nomeCargo;
+	private String nome;
 
 	@NotBlank(message = "O atributo nível é obrigatório!")
 	@Size(min = 3, max = 100, message = "O atributo nome deve conter no mínimo 3 e no máximo 100 caracteres")
@@ -54,12 +54,12 @@ public class Cargo {
 		this.id = id;
 	}
 
-	public String getNomeCargo() {
-		return nomeCargo;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNomeCargo(String nomeCargo) {
-		this.nomeCargo = nomeCargo;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getNivel() {
