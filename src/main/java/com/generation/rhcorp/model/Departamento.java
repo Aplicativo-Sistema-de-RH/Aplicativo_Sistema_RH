@@ -27,7 +27,7 @@ public class Departamento {
 
 	@NotBlank(message = "O atributo nome do departamento é obrigatório!")
 	@Size(min = 3, max = 100, message = "O atributo nome deve conter no mínimo 3 e no máximo 100 caracteres")
-	private String nomeDepartamento;
+	private String nome;
 
 	@NotBlank(message = "O atributo descrição é obrigatório!")
 	@Size(min = 3, max = 1000, message = "O atributo descrição deve conter no mínimo 3 e no máximo 1000 caracteres")
@@ -54,11 +54,11 @@ public class Departamento {
 	}
 
 	public String getNomeDepartamento() {
-		return nomeDepartamento;
+		return nome;
 	}
 
 	public void setNomeDepartamento(String nomeDepartamento) {
-		this.nomeDepartamento = nomeDepartamento;
+		this.nome = nomeDepartamento;
 	}
 
 	public String getDescricao() {

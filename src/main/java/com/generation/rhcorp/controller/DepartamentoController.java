@@ -47,12 +47,12 @@ public class DepartamentoController {
 		return ResponseEntity.ok(departamentoRepository.findAllByDescricaoContainingIgnoreCase(descricao));
 	}
 
-	@PostMapping()
+	@PostMapping
 	public ResponseEntity<Departamento> post(@Valid @RequestBody Departamento departamento) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(departamentoRepository.save(departamento));
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping
 	public ResponseEntity<Departamento> put(@PathVariable Long id, @Valid @RequestBody Departamento departamento) {
 		return departamentoRepository.findById(id).map(resposta -> {
 			departamento.setId(id);

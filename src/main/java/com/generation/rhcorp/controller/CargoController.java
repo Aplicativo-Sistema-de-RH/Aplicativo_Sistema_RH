@@ -47,12 +47,12 @@ public class CargoController {
 		return ResponseEntity.ok(cargoRepository.findAllByNomeContainingIgnoreCase(nome));
 	}
 
-	@PostMapping("/cadastrar")
+	@PostMapping
 	public ResponseEntity<Cargo> post(@Valid @RequestBody Cargo cargo) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(cargoRepository.save(cargo));
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping
 	public ResponseEntity<Cargo> put(@PathVariable Long id, @Valid @RequestBody Cargo cargo) {
 		return cargoRepository.findById(id).map(resposta -> {
 			cargo.setId(id);
