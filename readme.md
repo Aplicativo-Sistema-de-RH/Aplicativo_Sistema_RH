@@ -39,7 +39,7 @@ Projeto desenvolvido como parte do **Desafio 3 do Projeto Integrador (Backend)**
 
 ### Cargo (`tb_cargo`)
 
-- `id` — Identificador único do treino
+- `id` — Identificador único do cargo
 - `nome` — Nome do cargo (ex: Analista, Gerente)
 - `nivel` — Nível do cargo (Júnior, Pleno, Sênior)
 - `descricao` — Descrição/responsabilidades do cargo
@@ -47,8 +47,8 @@ Projeto desenvolvido como parte do **Desafio 3 do Projeto Integrador (Backend)**
 
 ### Departamento (`tb_departamento`)
 
-- `id` — Identificador único da região corporal
-- `descricao` — Descrição da região corporal
+- `id` — Identificador único do departamento
+- `descricao` — Descrição do departamento
 - `nome` — Nome do departamento (RH, TI, Financeiro)
 - `andar` — Localização física dentro da empresa
 - `ramal` — Número de ramal do departamento
