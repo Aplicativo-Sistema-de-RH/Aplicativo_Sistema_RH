@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.rhcorp.model.Usuario;
 import com.generation.rhcorp.model.UsuarioLogin;
+import com.generation.rhcorp.repository.CargoRepository;
+import com.generation.rhcorp.repository.DepartamentoRepository;
 import com.generation.rhcorp.repository.UsuarioRepository;
 import com.generation.rhcorp.service.UsuarioService;
 
@@ -32,6 +35,16 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private CargoRepository cargoRepository;
+
+	@Autowired
+	private DepartamentoRepository departamentoRepository;
+
+	UsuarioController(CargoRepository cargoRepository) {
+		this.cargoRepository = cargoRepository;
+	}
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Usuario>> getAll() {
@@ -54,21 +67,29 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> postUsuario(@RequestBody @Valid Usuario usuario) {
-
-		return usuarioService.cadastrarUsuario(usuario)
-				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
-				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-
+	public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario usuario) {
+		if (cargoRepository.existsById(usuario.getCargo().getId())
+				&& departamentoRepository.existsById(usuario.getDepartamento().getId())) {
+			return usuarioService.cadastrarUsuario(usuario)
+					.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+					.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 
 	@PutMapping("/atualizar")
 	public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
-
-		return usuarioService.atualizarUsuario(usuario)
-				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+		return usuarioRepository.findById(usuario.getId())
+				.map(resposta -> {
+					if (!cargoRepository.existsById(usuario.getCargo().getId())) {
+						throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cargo não existe!", null);
+					}
+					if (!departamentoRepository.existsById(usuario.getDepartamento().getId())) {
+						throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Departamento não existe!", null);
+					}
+					return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
+				})
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-
 	}
 
 }
