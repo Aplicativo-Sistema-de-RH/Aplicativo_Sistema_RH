@@ -42,7 +42,7 @@ public class Cargo {
 	@Positive(message = "O salário deve ser maior do que zero!")
 	private BigDecimal salario;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cargo", cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cargo", cascade = { CascadeType.REMOVE })
 	@JsonIgnoreProperties("cargo")
 	private List<Usuario> usuario;
 
@@ -93,4 +93,5 @@ public class Cargo {
 	public void setUsuario(List<Usuario> usuario) {
 		this.usuario = usuario;
 	}
+
 }

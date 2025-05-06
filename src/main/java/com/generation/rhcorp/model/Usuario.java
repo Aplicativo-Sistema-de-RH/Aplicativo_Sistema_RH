@@ -109,4 +109,5 @@ public class Usuario {
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
+
 }
