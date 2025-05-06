@@ -27,59 +27,53 @@ import jakarta.validation.Valid;
 @RequestMapping("/departamento")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DepartamentoController {
-	
+
 	@Autowired
 	private DepartamentoRepository departamentoRepository;
-	
-	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Departamento>> getAll(){
+	public ResponseEntity<List<Departamento>> getAll() {
 		return ResponseEntity.ok(departamentoRepository.findAll());
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Departamento> getById(@PathVariable Long id){
+	public ResponseEntity<Departamento> getById(@PathVariable Long id) {
 		return departamentoRepository.findById(id)
 				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-	
+
 	@GetMapping("/descricao/{descricao}")
-	public ResponseEntity<List<Departamento>> getByDescricao(@PathVariable String descricao){
+	public ResponseEntity<List<Departamento>> getByDescricao(@PathVariable String descricao) {
 		return ResponseEntity.ok(departamentoRepository.findAllByDescricaoContainingIgnoreCase(descricao));
 	}
 
-	@PostMapping
-	public ResponseEntity<Departamento> post(@Valid @RequestBody Departamento departamento){
-		if (usuarioRepository.existsById(departamento.getUsuario().getId()))
-			return ResponseEntity.status(HttpStatus.CREATED).body(departamentoRepository.save(departamento));
-		
-		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não existe!", null);
+	@PostMapping()
+	public ResponseEntity<Departamento> post(@Valid @RequestBody Departamento departamento) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(departamentoRepository.save(departamento));
 	}
-	
-	@PutMapping
-	public ResponseEntity<Departamento> put(@Valid @RequestBody Departamento departamento){
-		if (departamentoRepository.existsById(departamento.getId())) {
-			if (usuarioRepository.existsById(departamento.getUsuario(.getId())))
-				return ResponseEntity.status(HttpStatus.OK)
-						.body(departamentoRepository.save(departamento));
-			
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não existe!", null);
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Departamento> put(@PathVariable Long id, @Valid @RequestBody Departamento departamento) {
+		return departamentoRepository.findById(id)
+				.map(resposta -> {
+					departamento.setId(id);
+					return ResponseEntity.status(HttpStatus.OK)
+							.body(departamentoRepository.save(departamento));
+				})
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-	
-	@ResponseStatus(HttpStatus.NO_CONTENT) 
+
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		
+
 		Optional<Departamento> departamento = departamentoRepository.findById(id);
-		
+
 		if (departamento.isEmpty())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		
+
 		departamentoRepository.deleteById(id);
 	}
 }
