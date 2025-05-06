@@ -38,8 +38,7 @@ public class DepartamentoController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Departamento> getById(@PathVariable Long id) {
-		return departamentoRepository.findById(id)
-				.map(resposta -> ResponseEntity.ok(resposta))
+		return departamentoRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
@@ -50,19 +49,15 @@ public class DepartamentoController {
 
 	@PostMapping()
 	public ResponseEntity<Departamento> post(@Valid @RequestBody Departamento departamento) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(departamentoRepository.save(departamento));
+		return ResponseEntity.status(HttpStatus.CREATED).body(departamentoRepository.save(departamento));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Departamento> put(@PathVariable Long id, @Valid @RequestBody Departamento departamento) {
-		return departamentoRepository.findById(id)
-				.map(resposta -> {
-					departamento.setId(id);
-					return ResponseEntity.status(HttpStatus.OK)
-							.body(departamentoRepository.save(departamento));
-				})
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		return departamentoRepository.findById(id).map(resposta -> {
+			departamento.setId(id);
+			return ResponseEntity.status(HttpStatus.OK).body(departamentoRepository.save(departamento));
+		}).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)

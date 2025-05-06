@@ -49,15 +49,14 @@ public class UsuarioController {
 		this.cargoRepository = cargoRepository;
 	}
 
-	@GetMapping("/all")
+	@GetMapping
 	public ResponseEntity<List<Usuario>> getAll() {
 		return ResponseEntity.ok(usuarioRepository.findAll());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getById(@PathVariable Long id) {
-		return usuarioRepository.findById(id)
-				.map(resposta -> ResponseEntity.ok(resposta))
+		return usuarioRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
 	}
 
@@ -82,17 +81,15 @@ public class UsuarioController {
 
 	@PutMapping("/atualizar")
 	public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
-		return usuarioRepository.findById(usuario.getId())
-				.map(resposta -> {
-					if (!cargoRepository.existsById(usuario.getCargo().getId())) {
-						throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cargo não existe!", null);
-					}
-					if (!departamentoRepository.existsById(usuario.getDepartamento().getId())) {
-						throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Departamento não existe!", null);
-					}
-					return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
-				})
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		return usuarioRepository.findById(usuario.getId()).map(resposta -> {
+			if (!cargoRepository.existsById(usuario.getCargo().getId())) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cargo não existe!", null);
+			}
+			if (!departamentoRepository.existsById(usuario.getDepartamento().getId())) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Departamento não existe!", null);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
+		}).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@GetMapping("/{id}/calcular-salario")

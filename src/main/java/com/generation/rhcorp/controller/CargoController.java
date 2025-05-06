@@ -38,30 +38,26 @@ public class CargoController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cargo> getById(@PathVariable Long id) {
-		return cargoRepository.findById(id)
-				.map(resposta -> ResponseEntity.ok(resposta))
+		return cargoRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
-	@GetMapping("/nomecargo/{nome}")
-	public ResponseEntity<List<Cargo>> getByDescricao(@PathVariable String nome) {
+	@GetMapping("/nome/{nome}")
+	public ResponseEntity<List<Cargo>> getByNome(@PathVariable String nome) {
 		return ResponseEntity.ok(cargoRepository.findAllByNomeContainingIgnoreCase(nome));
 	}
 
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Cargo> post(@Valid @RequestBody Cargo cargo) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(cargoRepository.save(cargo));
+		return ResponseEntity.status(HttpStatus.CREATED).body(cargoRepository.save(cargo));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Cargo> put(@PathVariable Long id, @Valid @RequestBody Cargo cargo) {
-		return cargoRepository.findById(id)
-				.map(resposta -> {
-					cargo.setId(id);
-					return ResponseEntity.status(HttpStatus.OK).body(cargoRepository.save(cargo));
-				})
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		return cargoRepository.findById(id).map(resposta -> {
+			cargo.setId(id);
+			return ResponseEntity.status(HttpStatus.OK).body(cargoRepository.save(cargo));
+		}).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -74,5 +70,4 @@ public class CargoController {
 
 		cargoRepository.deleteById(id);
 	}
-
 }

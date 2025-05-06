@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import com.generation.rhcorp.model.Cargo;
 
 public interface CargoRepository extends JpaRepository<Cargo, Long> {
+	
 	public List<Cargo> findAllByNomeContainingIgnoreCase(@Param("nome") String nome);
 
 }
