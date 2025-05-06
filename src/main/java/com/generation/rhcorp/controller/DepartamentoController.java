@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.rhcorp.model.Departamento;
 import com.generation.rhcorp.repository.DepartamentoRepository;
+import com.generation.rhcorp.repository.UsuarioRepository;
 
 import jakarta.validation.Valid;
 
