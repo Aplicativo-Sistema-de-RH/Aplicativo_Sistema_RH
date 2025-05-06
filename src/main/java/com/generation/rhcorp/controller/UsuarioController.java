@@ -1,6 +1,8 @@
 package com.generation.rhcorp.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -90,6 +93,19 @@ public class UsuarioController {
 					return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
 				})
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	}
+
+	@GetMapping("/{id}/calcular-salario")
+	public ResponseEntity<Map<String, Object>> calcularSalario(
+			@PathVariable Long id,
+			@RequestParam int horasTrabalhadas,
+			@RequestParam(required = false) BigDecimal bonus,
+			@RequestParam(required = false) BigDecimal descontos) {
+
+		return usuarioService.calcularSalario(id, horasTrabalhadas, bonus, descontos)
+				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body(Map.of("mensagem", "Usuário não encontrado ou dados inválidos.")));
 	}
 
 }
