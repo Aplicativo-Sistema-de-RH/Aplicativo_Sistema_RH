@@ -2,6 +2,7 @@ package com.generation.rhcorp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class Usuario {
 	@NotNull(message = "O atributo nome é obrigatório!")
 	private String nome;
 
+	@Schema(example = "email@email.com.br")
 	@NotNull(message = "O atributo usuário é obrigatório!")
 	@Email(message = "O atributo usuário deve ser um email válido!")
 	private String usuario;
