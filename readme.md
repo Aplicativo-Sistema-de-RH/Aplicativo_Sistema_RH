@@ -12,15 +12,17 @@ Projeto desenvolvido como parte do **Desafio 3 do Projeto Integrador (Backend)**
  <a href="#integrantes-do-grupo">Integrantes</a>
 </p>
 
-**Escopo do Projeto:** Clique [aqui]
+**Escopo do Projeto:** Clique [aqui](https://docs.google.com/document/d/1hqB29zJgDSAkMddsSNyNL3l7RJ9QbgS4bvNPJuEiosA/edit?usp=sharing)
 
 ## Descrição do Projeto
 
-<!-- A aplicação de Fitness se trata de um sistema de cadastro e autenticação de usuários voltado para o acompanhamento da saúde física e controle de treinos personalizados. O sistema permite calcular o IMC (Índice de Massa Corporal) dos usuários, além de oferecer funcionalidades CRUD completas. -->
+O RH CORP é um sistema digital de cadastro e gestão de recursos humanos, desenvolvido para empresas que desejam organizar seus dados de forma prática, segura e eficiente.
+
 
 ## Problema que o projeto visa resolver
 
-<!-- Muitas pessoas iniciam suas rotinas de treino sem um controle real de sua saúde corporal. O projeto busca resolver a falta de organização e personalização no acompanhamento fitness, possibilitando que usuários cadastrem seus dados, acessem informações de saúde (como o IMC) e mantenham um histórico organizado para seu progresso. -->
+O projeto surgiu da necessidade em otimizar e organizar com segurança os dados dos colaboradores a partir de uma plataforma prática e intuitiva. Com o Rh Corp, a equipe de recursos humanos conseguem consultar mais rapidamente os cadastros que desejam e, também, os colaboradores conseguem checar suas próprias informações — lembrando que os níveis de acesso são diferentes, dependendo do tipo de usuário. O sistema também oferece o cálculo automático de salários com base em horas trabalhadas, bônus, descontos, entre outras condicionais.
+
 
 ## Entidades e Atributos
 
@@ -96,7 +98,7 @@ Projeto desenvolvido como parte do **Desafio 3 do Projeto Integrador (Backend)**
 
 ## Testes
 
-As funcionalidades da API foram testadas utilizando o Insomnia, simulando requisições HTTP para validação de cada endpoint.
+As funcionalidades da API foram testadas utilizando o Insomnia em conjunto com o swagger, simulando requisições HTTP para validação de cada endpoint.
 
 ## Integrantes do Grupo
 
