@@ -14,6 +14,8 @@ Projeto desenvolvido como parte do **Desafio 3 do Projeto Integrador (Backend)**
 
 **Escopo do Projeto:** Clique [aqui](https://docs.google.com/document/d/1hqB29zJgDSAkMddsSNyNL3l7RJ9QbgS4bvNPJuEiosA/edit?usp=sharing)
 
+**Link do Deploy:** Clique [aqui](https://aplicativo-sistema-rh.onrender.com/)
+
 ## Descrição do Projeto
 
 O RH CORP é um sistema digital de cadastro e gestão de recursos humanos, desenvolvido para empresas que desejam organizar seus dados de forma prática, segura e eficiente.
@@ -106,7 +108,7 @@ As funcionalidades da API foram testadas utilizando o Insomnia em conjunto com o
 | ---------------- | ------------ | ----------------------------------------------------------- |
 | Weslley Ferreira | Developer    | [wdwf](https://github.com/wdwf/)                            |
 | Ruan Barreto     | Developer    | [BarretoRuan](https://github.com/BarretoRuan)               |
-| Rodrigo Henrique | Product Owne | [RodrigoHenrikeH](https://github.com/RodrigoHenrikeH)       |
+| Rodrigo Henrique | Product Owner| [RodrigoHenrikeH](https://github.com/RodrigoHenrikeH)       |
 | Giulia Lopes     | Developer    | [Giulia-L-Ferreira](https://github.com/Giulia-L-Ferreira)   |
 | Larissa Soares   | Developer    | [LarissaSoaresSilva](https://github.com/LarissaSoaresSilva) |
 | Elisa Bicudo     | Tester       | [eblopes23](https://github.com/eblopes23)                   |
