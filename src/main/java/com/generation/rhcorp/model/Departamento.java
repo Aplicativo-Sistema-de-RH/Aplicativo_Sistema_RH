@@ -53,12 +53,12 @@ public class Departamento {
 		this.id = id;
 	}
 
-	public String getNomeDepartamento() {
+	public String getNome() {
 		return nome;
 	}
 
-	public void setNomeDepartamento(String nomeDepartamento) {
-		this.nome = nomeDepartamento;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getDescricao() {

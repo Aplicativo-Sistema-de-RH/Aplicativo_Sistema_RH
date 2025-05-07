@@ -53,9 +53,9 @@ public class DepartamentoController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Departamento> put(@PathVariable Long id, @Valid @RequestBody Departamento departamento) {
-		return departamentoRepository.findById(id).map(resposta -> {
-			departamento.setId(id);
+	public ResponseEntity<Departamento> put(@Valid @RequestBody Departamento departamento) {
+		return departamentoRepository.findById(departamento.getId()).map(resposta -> {
+			departamento.setId(departamento.getId());
 			return ResponseEntity.status(HttpStatus.OK).body(departamentoRepository.save(departamento));
 		}).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}

@@ -53,9 +53,9 @@ public class CargoController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Cargo> put(@PathVariable Long id, @Valid @RequestBody Cargo cargo) {
-		return cargoRepository.findById(id).map(resposta -> {
-			cargo.setId(id);
+	public ResponseEntity<Cargo> put( @Valid @RequestBody Cargo cargo) {
+		return cargoRepository.findById(cargo.getId()).map(resposta -> {
+			cargo.setId(cargo.getId());
 			return ResponseEntity.status(HttpStatus.OK).body(cargoRepository.save(cargo));
 		}).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}

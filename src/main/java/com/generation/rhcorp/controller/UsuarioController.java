@@ -57,7 +57,7 @@ public class UsuarioController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getById(@PathVariable Long id) {
 		return usuarioRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
-				.orElse(ResponseEntity.notFound().build());
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@PostMapping("/logar")
@@ -69,15 +69,17 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario usuario) {
-		if (cargoRepository.existsById(usuario.getCargo().getId())
-				&& departamentoRepository.existsById(usuario.getDepartamento().getId())) {
-			return usuarioService.cadastrarUsuario(usuario)
-					.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
-					.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-	}
+    public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario usuario) {
+        if (cargoRepository.existsById(usuario.getCargo().getId())
+                && departamentoRepository.existsById(usuario.getDepartamento().getId())) {
+            return usuarioService.cadastrarUsuario(usuario)
+                    .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+                    .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+	
 
 	@PutMapping("/atualizar")
 	public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
