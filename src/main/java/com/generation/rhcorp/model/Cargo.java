@@ -11,6 +11,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -42,9 +44,13 @@ public class Cargo {
 	@Positive(message = "O salário deve ser maior do que zero!")
 	private BigDecimal salario;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cargo", cascade = { CascadeType.REMOVE })
+	@ManyToOne
+	@JsonIgnoreProperties("cargos")
+	private Departamento departamento;
+
+	@OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("cargo")
-	private List<Usuario> usuario;
+	private List<Usuario> usuarios;
 
 	public Long getId() {
 		return id;
@@ -86,12 +92,20 @@ public class Cargo {
 		this.salario = salario;
 	}
 
-	public List<Usuario> getUsuario() {
-		return usuario;
+	public Departamento getDepartamento() {
+		return departamento;
 	}
 
-	public void setUsuario(List<Usuario> usuario) {
-		this.usuario = usuario;
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 }

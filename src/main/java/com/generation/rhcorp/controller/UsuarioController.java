@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.generation.rhcorp.model.Cargo;
 import com.generation.rhcorp.model.Usuario;
 import com.generation.rhcorp.model.UsuarioLogin;
 import com.generation.rhcorp.repository.CargoRepository;
@@ -69,26 +70,51 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/cadastrar")
-    public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario usuario) {
-        if (cargoRepository.existsById(usuario.getCargo().getId())
-                && departamentoRepository.existsById(usuario.getDepartamento().getId())) {
-            return usuarioService.cadastrarUsuario(usuario)
-                    .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
-                    .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
+	public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario usuario) {
 
-	
+		Cargo cargo;
+
+		if (usuario.getCargo() != null && usuario.getCargo().getId() != null) {
+
+			Optional<Cargo> cargoInformado = cargoRepository.findById(usuario.getCargo().getId());
+			if (cargoInformado.isPresent()) {
+				cargo = cargoInformado.get();
+			} else {
+				// Se o ID informado não existir, busca o cargo padrão
+				cargo = cargoRepository.findAllByNomeContainingIgnoreCase("Recursos Humanos")
+						.stream().findFirst().orElse(null);
+			}
+		} else {
+			cargo = cargoRepository.findAllByNomeContainingIgnoreCase("Recursos Humanos").stream().findFirst().orElse(null);
+		}
+		if (cargo != null) {
+			usuario.setCargo(cargo);
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+
+		return usuarioService.cadastrarUsuario(usuario)
+				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+	}
+
+	// @PostMapping("/cadastrar")
+	// public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario
+	// usuario) {
+	// if (cargoRepository.existsById(usuario.getCargo().getId())) {
+	// return usuarioService.cadastrarUsuario(usuario)
+	// .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+	// .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+	// }
+	// return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+	// }
 
 	@PutMapping("/atualizar")
 	public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
 		return usuarioRepository.findById(usuario.getId()).map(resposta -> {
 			if (!cargoRepository.existsById(usuario.getCargo().getId())) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cargo não existe!", null);
-			}
-			if (!departamentoRepository.existsById(usuario.getDepartamento().getId())) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Departamento não existe!", null);
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+						"Cargo não existe!", null);
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
 		}).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -96,9 +122,13 @@ public class UsuarioController {
 
 	@GetMapping("/{id}/calcular-salario")
 	public ResponseEntity<Map<String, Object>> calcularSalario(
+
 			@PathVariable Long id,
+
 			@RequestParam int horasTrabalhadas,
+
 			@RequestParam(required = false) BigDecimal bonus,
+
 			@RequestParam(required = false) BigDecimal descontos) {
 
 		return usuarioService.calcularSalario(id, horasTrabalhadas, bonus, descontos)

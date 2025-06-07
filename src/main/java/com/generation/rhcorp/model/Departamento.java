@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -41,9 +42,9 @@ public class Departamento {
 	@Positive(message = "O ramal deve ser maior do que zero!")
 	private Integer ramal;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "departamento", cascade = { CascadeType.REMOVE })
+	@OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("departamento")
-	private List<Usuario> usuario;
+	private List<Cargo> cargos;
 
 	public Long getId() {
 		return id;
@@ -85,12 +86,12 @@ public class Departamento {
 		this.ramal = ramal;
 	}
 
-	public List<Usuario> getUsuario() {
-		return usuario;
+	public List<Cargo> getCargos() {
+		return cargos;
 	}
 
-	public void setUsuario(List<Usuario> usuario) {
-		this.usuario = usuario;
+	public void setCargos(List<Cargo> cargos) {
+		this.cargos = cargos;
 	}
 
 }

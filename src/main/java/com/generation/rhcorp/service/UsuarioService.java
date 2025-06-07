@@ -108,21 +108,25 @@ public class UsuarioService {
 			BigDecimal descontos) {
 
 		if ((bonus != null && bonus.compareTo(BigDecimal.ZERO) < 0)
-				|| (descontos != null && descontos.compareTo(BigDecimal.ZERO) < 0) || (horasTrabalhadas < 0)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Os parametros não podem ser negativos");
+				|| (descontos != null && descontos.compareTo(BigDecimal.ZERO) < 0) ||
+				(horasTrabalhadas < 0)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Os parametros não podem ser negativos");
 		}
 
 		Optional<Usuario> usuarioExiste = usuarioRepository.findById(Id);
 
 		if (usuarioExiste.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"Usuário não encontrado");
 		}
 
 		Usuario usuario = usuarioExiste.get();
 		Cargo cargo = usuario.getCargo();
 
 		if (cargo == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não possui cargo associado");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Usuário não possui cargo associado");
 		}
 
 		BigDecimal salarioBase = cargo.getSalario();
@@ -142,4 +146,5 @@ public class UsuarioService {
 
 		return Optional.of(resultado);
 	}
+
 }

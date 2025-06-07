@@ -1,13 +1,18 @@
 package com.generation.rhcorp.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -37,16 +42,9 @@ public class Usuario {
 	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
 	private String foto;
 
-	@NotNull(message = "O atributo tipo é obrigatório!")
-	private String tipo;
-
 	@ManyToOne
-	@JsonIgnoreProperties("usuario")
+	@JsonIgnoreProperties("usuarios")
 	private Cargo cargo;
-
-	@ManyToOne
-	@JsonIgnoreProperties("usuario")
-	private Departamento departamento;
 
 	public Long getId() {
 		return id;
@@ -88,28 +86,12 @@ public class Usuario {
 		this.foto = foto;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public Cargo getCargo() {
 		return cargo;
 	}
 
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
-	}
-
-	public Departamento getDepartamento() {
-		return departamento;
-	}
-
-	public void setDepartamento(Departamento departamento) {
-		this.departamento = departamento;
 	}
 
 }
