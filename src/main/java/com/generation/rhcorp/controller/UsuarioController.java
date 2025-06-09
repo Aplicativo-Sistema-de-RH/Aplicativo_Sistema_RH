@@ -111,13 +111,15 @@ public class UsuarioController {
 
 	@PutMapping("/atualizar")
 	public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
-		return usuarioRepository.findById(usuario.getId()).map(resposta -> {
-			if (!cargoRepository.existsById(usuario.getCargo().getId())) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-						"Cargo não existe!", null);
-			}
-			return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
-		}).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+
+		if (!cargoRepository.existsById(usuario.getCargo().getId())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Cargo não existe!", null);
+		}
+
+		return usuarioService.atualizarUsuario(usuario)
+				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@GetMapping("/{id}/calcular-salario")
